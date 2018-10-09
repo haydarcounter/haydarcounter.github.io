@@ -1,53 +1,205 @@
-<!DOCTYPE HTML>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-p {
-  text-align: center;
-  font-size: 60px;
-  margin-top:0px;
-}
-</style>
+  <meta charset="UTF-8">
 </head>
+<h1>
+İSİM BULMACA
+</h1>
+
+<body onload="document.getElementById('realName').focus()">
+
 <body>
 
-<p id="haydar"></p>
-<p id="demo"></p>
-<p style="text-align:center;"><img src="kanat.jpg" alt="kanat"></p>
+
+<p>
+Gerçek isim
+
+<button
+	tabindex = 0
+	onclick="myFunction()">	&#128065;
+</button>
+<input type="password" id="realName"/>
+
+</p>
+
+
+</br>
+
+<p>
+Tahmin
+
+
+<input type="text" id="tahmin"onkeydown="func2(event)"/>
+
+
+<button onclick="func()">
+ enter
+</button>
+
+</p>
+
+<h3 id="victoryBox" >
+
+</h3>
+
+<table  id = "tablo">
+  <tr>
+    <th>Tahmin	</th>
+    <th>+</th>
+    <th>-</th>
+  </tr>
+
+</table>
+
+<audio controls id="ses" style = "display:none">
+  <source src="victory.mp3" type="audio/ogg">
+  <source src="victory.mp3" type="audio/mpeg">
+Your browser does not support the audio element.
+</audio>
+
+
 
 <script>
-// Set the date we're counting down to
-var countDownDate = new Date("October 8, 2018 17:16:00").getTime();
-
-// Update the count down every 1 second
-var x = setInterval(function() {
-
-    // Get todays date and time
-    var now = new Date().getTime();
-
-    // Find the distance between now an the count down date
-    var distance = countDownDate - now;
-
-    // Time calculations for days, hours, minutes and seconds
-    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    // Output the result in an element with id="demo"
-    document.getElementById("demo").innerHTML = days + "d " + hours + "h "
-    + minutes + "m " + seconds + "s ";
-
-    document.getElementById("haydar").innerHTML = "Haydar icin kalan sure:"
-
-    // If the count down is over, write some text
-    if (distance < 0) {
-        clearInterval(x);
-        document.getElementById("demo").innerHTML = "EXPIRED";
+function func2(event)
+{
+	if (event.keyCode === 13) {
+        func();
     }
-}, 1000);
+}
+
+function func()
+{
+	var tahminStr = tahmin.value.toLowerCase();
+	var realNameStr = realName.value.toLowerCase();
+
+	if (tahminStr.length != realNameStr.length)
+	{
+
+		var a="HARF SAYISI YANLIŞ!";
+		document.getElementById("victoryBox").innerHTML =a;
+		document.getElementById("tahmin").value="";
+		return;
+	}
+	else
+	{
+		document.getElementById("victoryBox").innerHTML =" ";
+	}
+
+	window.console.log(tahminStr.length)
+	var karakterSayisi = tahminStr.length;
+	
+	var arti = 0
+	var eksi = 0;
+	
+	for (var i=0;i < karakterSayisi;i++) 
+	{
+		var idx = realNameStr.indexOf(tahminStr.charAt(i))
+		console.log("idx=",idx,"i=",i)
+		
+		if (idx == -1)
+		{	
+			console.log("cannot find at index",i);
+		}
+		
+		else if (realNameStr.charAt(i) == tahminStr.charAt(i))
+		{
+			console.log("arti found at:",i,"char:",tahminStr.charAt(i));
+			arti++;
+		}
+		else
+		{
+			console.log("eksi found at:",i,"char:",tahminStr.charAt(i));
+			tahminStr.replaceAt(i,"?");
+			eksi--;
+		}	
+	}	
+	
+	window.console.log(arti);
+	window.console.log(eksi);
+
+	if (arti == karakterSayisi)
+	{
+		functVictory(realNameStr);
+		return;
+	}
+
+
+	var tabloTahmin = document.createElement("td");
+	tabloTahmin.innerHTML = tahminStr;
+
+	var tabloArti = document.createElement("td");
+	tabloArti.innerHTML = arti;
+
+	var tabloEksi = document.createElement("td");
+	tabloEksi.innerHTML = eksi;
+
+	var tabloRow = document.createElement("tr");
+	tabloRow.appendChild(tabloTahmin);
+	tabloRow.appendChild(tabloArti);
+	tabloRow.appendChild(tabloEksi);
+
+	document.getElementById("tablo").appendChild(tabloRow);
+
+	document.getElementById("tahmin").value="";
+
+}
+
+function functVictory(str)
+{
+	document.getElementById("ses").play();
+	// loop();
+	// window.alert("BİLDİNİZ!! Gerçek isim," + realNameStr.toUpperCase() + " idi");
+	// document.getElementById("tablo").style.display="none";
+	var a="BİLDİNİZ!! Gerçek isim," + str.toUpperCase() + " idi";
+	document.getElementById("victoryBox").innerHTML =a ;
+
+	// anan.innerHTML =
+
+	<!-- document.getElementsByTagName("body")[0].appendChild(anan); -->
+
+}
+
+function myFunction() {
+
+    var x = document.getElementById("realName");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
+
+String.prototype.replaceAt=function(index, replacement) {
+    return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
+}
+
 </script>
 
+<style>
+table tr{text-align:left;font-size:300%}
+table {width:40%}
+
+    * {
+      font-family: Helvetica;
+    }
+
+	body {
+	background: #FFF;
+	margin: 0;
+}
+
+canvas {
+	cursor: crosshair;
+	display: block;
+	z-index:10
+}
+
+#tahmin{margin-left:105px}
+
+h3 {color:RED}
+
+
+</style>
 </body>
+
 </html>
