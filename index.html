@@ -91,9 +91,11 @@ function func()
 	var arti = 0
 	var eksi = 0;
 	
+	realNameStrTemp = realNameStr;
+	
 	for (var i=0;i < karakterSayisi;i++) 
 	{
-		var idx = realNameStr.indexOf(tahminStr.charAt(i))
+		var idx = realNameStrTemp.indexOf(tahminStr.charAt(i))
 		console.log("idx=",idx,"i=",i)
 		
 		if (idx == -1)
@@ -105,13 +107,16 @@ function func()
 		{
 			console.log("arti found at:",i,"char:",tahminStr.charAt(i));
 			arti++;
+			realNameStrTemp = realNameStrTemp.replaceAt(i,"!");
 		}
-		else
+		else 
 		{
 			console.log("eksi found at:",i,"char:",tahminStr.charAt(i));
-			tahminStr.replaceAt(i,"?");
+			realNameStrTemp = realNameStrTemp.replaceAt(i,"?");
 			eksi--;
 		}	
+		
+		console.log("string:" , tahminStr);
 	}	
 	
 	window.console.log(arti);
@@ -170,6 +175,7 @@ function myFunction() {
 }
 
 String.prototype.replaceAt=function(index, replacement) {
+	console.log("replace index:" , index);
     return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
 }
 
