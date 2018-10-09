@@ -107,12 +107,12 @@ function func()
 		{
 			console.log("arti found at:",i,"char:",tahminStr.charAt(i));
 			arti++;
-			realNameStrTemp = realNameStrTemp.replaceAt(i,"!");
+			realNameStrTemp = realNameStrTemp.replaceAt(idx,"!");
 		}
 		else 
 		{
 			console.log("eksi found at:",i,"char:",tahminStr.charAt(i));
-			realNameStrTemp = realNameStrTemp.replaceAt(i,"?");
+			realNameStrTemp = realNameStrTemp.replaceAt(idx,"?");
 			eksi--;
 		}	
 		
